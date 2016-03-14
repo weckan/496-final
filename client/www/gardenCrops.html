@@ -5,41 +5,38 @@
 <div  ng-controller="gardenCropsController">
 <div>
   <div class="panel">
-      <label>New Crop:</label><input type="text" ng-model="newCrop">
-      <label>Note:</label>
-      <input type="text"
-      ng-model="newCropNote" >
-      <button type="button"ng-click="addNote(newCropNote, newCropNotes)">
+      <label class="item item-input">
+          <input type="text" placeholder="Crop Name" ng-model="newCrop">
+      </label>
+      <label class="item item-input">
+          <textarea placeholder="Note" ng-model="newCropNote" ></textarea>
+      </label>
+      <button type="button button-calm" ng-click="addNote(newCropNote, newCropNotes)">
 	Add Notes</button>
   </div>
-      <div> Preview </div>
-      <ul>
-          Crop Name: <span ng-bind="newCrop"></span>
-          <li ng-repeat="note in newCropNotes">
-          <text>{{note}}</text>
-          <button class="btn btn-danger btn-xs"
+      <ul class="list">
+          <li class="item" ng-repeat="note in newCropNotes">
+              <text>{{note}}</text>
+          <button class="button"
               type="button" ng-click="removeNote(note,
               newCropNotes)">Remove</button>
           </li>
       </ul>
-
-      <button ng-repeat="note in newCropNotes" class="btn btn-success btn-sm"
-          type="button" ng-click="removeNote(note,
-          newCropNotes)" title="Remove">{{note}}</button>
-
-      <button  class="btn btn-info" ng-click="addCrop()">Save Crop</button><span class="errorText">{{addCropError.text}}</span>
+      <button  class="button button-calm" ng-click="addCrop()">Save Crop</button><span class="errorText">{{addCropError.text}}</span>
   </div>
+  </br>
 
   <ion-list>
+    <ion-item>Crop List</ion-item>
     <ion-item ng-repeat="crop in gardenCrops | orderBy:'_id'"
     ng-include="getCropTemplate(crop)">
         <script type="text/ng-template" id="editCrop">
-        <ul>
-            <li>
+        <ul class="list">
+            <li class="item">
                 <label>Crop:</label>
                 <input type="text" ng-model="selectedGardenCrop.name">
             </li>
-            <li>
+            <li class="item">
                 <label>Notes:</label>
                 <input type="text" ng-model="selectedEditNote">
                 <button ng-click="addNote(selectedEditNote, selectedCropNotes)">
@@ -60,21 +57,23 @@
     <ion-item ng-repeat="crop in gardenCrops | orderBy:'_id'"
     ng-include="getCropTemplate(crop)">
         <script type="text/ng-template" id="displayCrop">
-        <ul>
-            <li>{{crop.name}}</li>
-            <li>
+        <ul class="list">
+            <li class="item">{{crop.name}}</li>
+            <li class="item">
                 <ul>
                     <li ng-repeat="note in crop.notes">{{note}}</li>
                 </ul>
             </li>
-            <li><button ng-click="editCrop(crop)">Edit</button></li>
-            <li><button ng-click="removeCrop(crop._id)">Delete</button></li>
+            <li><button class="button button-positive"
+            ng-click="editCrop(crop)">Edit</button>
+            <button class="button button-assertive"
+            ng-click="removeCrop(crop._id)">Delete</button></li>
         </ul>
         </script>
     </ion-item>
   </ion-list>
 
-  <ion-list>
+  <!--ion-list>
     <ion-item ng-repeat="crop in gardenCrops | orderBy:'_id'"
     ng-include="getCropTemplate(crop)">
         <script type="text/ng-template" id="editCrop">
@@ -97,7 +96,7 @@
         </ul>
         </script>
     </ion-item>
-  </ion-list>
+  </ion-list-->
 
 
     <!--script type="text/ng-template" id="edit">

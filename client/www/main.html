@@ -16,7 +16,6 @@
   <script src="cordova.js"></script>
 </head>
 <body ng-app="cscApp">
-
     <!-- HEADER AND NAVBAR -->
     <header>
         <div class="bar bar-header bar-balanced">
@@ -30,15 +29,14 @@
     </br>
 
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
-    <body ng-controller="mainController">
-      <div id="main">
+    <!--body ng-controller="mainController"-->
+      <ion-content class="has-header">
           <div ng-view></div>
-      </div>
+      </ion-content>
 
      <div class="tabs">
         <a class="tab-item tabs-stable" href="#/"></i>Gardens</a>
         <a class="tab-item tabs-stable" href="#gardenCrops">Crops</a>
-        <a class="tab-item tabs-stable" href="#users"></i>Users</a>
         <a class="tab-item tabs-stable" href=""
             ng-controller="logoutController" ng-click="logoutUser()">Log out</a>
     </div>

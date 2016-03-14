@@ -3,7 +3,6 @@
 const cscApp = angular.module('cscApp', ['ionic', 'ngRoute', 'ngCordova']);
 //const apiUrl = 'http://ec2-54-153-28-110.us-west-1.compute.amazonaws.com:3000/api';
 const apiUrl = 'http://ec2-52-33-179-13.us-west-2.compute.amazonaws.com:8989/api';
-//const apiUrl = '0.0.0.0:8888/api';
 //const apiUrl = 'https://cs496-kevinto.c9.io:8080/api';
 
 // configure routes
@@ -82,6 +81,7 @@ cscApp.controller('gardenController', function($scope, $http, $location,
       console.log(response);
     });
     $scope.newGardenCrops = [];
+    $scope.newGardenCoordinates = [];
     $scope.editGardenCrops = [];
     $scope.showAddPanel = false;
   }
@@ -90,6 +90,10 @@ cscApp.controller('gardenController', function($scope, $http, $location,
     $http.get(apiUrl + '/gardens?owner__=' + username).success((response)=>{
       $scope.gardens = response;
       $scope.clearNewGarden();
+      $scope.newGardenCrops = [];
+      $scope.newGardenCoordinates = [];
+      $scope.editGardenCrops = [];
+      $scope.showAddPanel = false;
       $scope.selectedGarden = {};
       console.log(response);
     });
@@ -97,26 +101,37 @@ cscApp.controller('gardenController', function($scope, $http, $location,
   var username = $window.localStorage.getItem('username');
   init();
   refresh();
+  
+    $scope.getLocation = (collection) => {
+      //geolocation 
+      function getPosition(callback) {
+          console.log('in getPosition');
+          var posOptions = {timeout: 20000, enableHighAccuracy: false}
+          $cordovaGeolocation.getCurrentPosition(posOptions)
+          .then(function(position){
+              var where = [];
+              collection.push(position.coords.longitude);
+              collection.push(position.coords.latitude);
+              callback(collection);
+          }, function (err) {
+              console.log('error:', err);
+          });
+      }
+      var coordinates = getPosition(function(cookie) {
+           console.log(cookie);
+       });
+    }
+
   $scope.addGarden = () => {
     console.log('addGarden');
-    
-    //geolocation 
-    var gardenObject = $scope.newGarden;
-    var posOptions = {timeout: 20000, enableHighAccuracy: false}
-    $cordovaGeolocation.getCurrentPosition(posOptions)
-        .then(function(position){
-            var where = [];
-            where.push(position.coords.longitude);
-            where.push(position.coords.latitude);
-            gardenObject.location = {};
-            gardenObject.location.coordinates = where;
-            console.log(gardenObject);
-        }, function (err) {
-            console.log('error:', err);
-        });
-    
-      gardenObject.owner = $window.localStorage.getItem('username');
-      var newGarden = JSON.stringify(gardenObject);
+
+     var gardenObject =$scope.newGarden;
+     gardenObject.owner = $window.localStorage.getItem('username');
+     gardenObject.location = {};
+     gardenObject.location.coordinates = $scope.newGardenCoordinates;
+     gardenObject.gardenCrops = $scope.newGardenCrops;
+    var newGarden = JSON.stringify(gardenObject)
+
       $http({ method : 'POST',
           url : apiUrl + '/gardens',
           headers : {
