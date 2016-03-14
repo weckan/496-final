@@ -26,9 +26,14 @@ db.once('open', () => {
   // Routes
   app.use('/api', require('./routes/api'));
   app.use (express.static(__dirname+'/public'));
-  
+
+  // application routes
+    app.get('*', function(req, res) {
+        res.sendfile('.public/index.html'); //load single view file
+    });
+
   // Start server
-  var port = (process.env.NODE_ENV ? 3000 : 8080)
+  var port = (process.env.NODE_ENV ? 3000 : 8989)
   app.listen(port);
   console.log('API is running on port ' + port);
 });

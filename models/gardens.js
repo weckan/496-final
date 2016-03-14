@@ -7,6 +7,7 @@ var gardenSchema = new mongoose.Schema({
   name: String,
   description: String,
   gardenCrops: Array,
+  owner: String,
   location: {
     type: {
       type: String,
