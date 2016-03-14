@@ -1,0 +1,83 @@
+<!--style>
+.errorText {color: #D8000C;}
+.panel {display: inline-block; width: 25%; vertical-align: top; padding: 10px}
+</style-->
+<div class="container" ng-controller="gardenController">
+  <div ng-hide="!showAddPanel">
+    <div class="panel">
+        <label class="item item-input">Name:</label><input class="form-control" type="text" ng-model="newGarden.name">
+        <span class="errorText">{{invalidAdd.name}}</span>
+        <label class="item item-input">Description:</label><textarea class="form-control" rows="3"
+            ng-model="newGarden.description"></textarea>
+        <span class="errorText">{{invalidAdd.description}}</span>
+</div><div class="panel">
+    <label class="item item-input">Garden Crops:</label>
+      <select class="form-control" ng-model="selectedNewGarden" ng-change="addCrop(selectedNewGarden, newGardenCrops)">
+        <option ng-repeat="crop in gardenCrops" value="{{crop.name}}">{{crop.name}}</option>
+      </select>
+      <button ng-repeat="crop in newGardenCrops" class="btn btn-warning btn-sm"
+          type="button" ng-click="removeCrop(crop, newGardenCrops)" >{{crop}}</button>
+</div><div>
+    <button  class="btn btn-success" ng-click="addGarden(newGarden)">Save</button>
+    <button  class="btn btn-warning" ng-click="showAddPanel = false">Cancel</button>
+</div>
+</div>
+<div ng-hide="showAddPanel">
+    <button  class="button button-assertive" ng-click="showAddPanel = true">Add A Garden</button>
+</div>
+<br>
+  <label>Filter<input ng-model="search"></label>
+  <ion-list>
+    <ion-item ng-repeat="garden in gardens | filter:search"
+    ng-include="getTemplate(garden)">
+      <script type="text/ng-template" id="display">
+      <ul class="list">
+        <li class="item">
+          <ul>
+              <li>Garden Name: {{garden.name}}</li>
+              <li>Description: {{garden.description}}</li>
+              <li>
+                <ul>
+                    <li ng-repeat="crop in garden.gardenCrops">{{crop}}</li>
+                </ul>
+              </li>
+              <li><button class="button button-calm" ng-click="editGarden(garden)">Edit</button>
+              <button class="button button-assertive"
+              ng-click="removeGarden(garden._id)">Delete</button></li>
+          </ul>
+        </li>
+      </ul>
+      </script>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item ng-repeat="garden in gardens | filter:search"
+    ng-include="getTemplate(garden)">
+      <script type="text/ng-template" id="edit">
+      <ul>
+          <li>
+            <label>Name:</label>
+            <input class="form-control" type="text" ng-model="selectedGarden.name">
+            <span class="errorText">{{invalidAdd.name}}</span>
+          </li>
+          <li>
+            <label>Description:</label>
+            <textarea class="form-control" rows="3"
+            ng-model="selectedGarden.description"></textarea>
+            <span class="errorText">{{invalidAdd.name}}</span>
+          </li>
+          <li>
+            <label>Garden Crops:</label>
+            <select class="form-control" ng-model="selectedEditGarden" ng-change="addCrop(selectedEditGarden, editGardenCrops)">
+            <option ng-repeat="crop in gardenCrops" value="{{crop.name}}">{{crop.name}}</option>
+            </select>
+            <button ng-repeat="crop in editGardenCrops" class="btn-sm"
+            type="button" ng-click="removeCrop(crop, editGardenCrops)" >{{crop}}</button>
+          </li>
+          <li><button ng-click="updateGarden()">Save</button></li>
+      </ul>
+      </script>
+    </ion-item>
+  </ion-list>
+</div>

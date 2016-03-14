@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' *"/>
+    <allow-navigation href="http://*/*" />
+  <!-- load angular and angular route via CDN -->
+  <!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script-->
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-route.js"></script>
+  <script src="js/main.js"></script>
+  <script src="cordova.js"></script>
+</head>
+<body ng-app="cscApp">
+
+    <!-- HEADER AND NAVBAR -->
+    <header>
+        <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+              <h1>&nbspReuse Directory</h1>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-building fa-3x"></i>Businesses</a></li>
+                <li><a href="#categories"><i class="fa fa-list-alt fa-3x"></i>Categories</a></li>
+                <li><a href="#users"><i class="fa fa-user fa-3x"></i>Users</a></li>
+                <!--<li><a href="#logout"><i class="fa fa-sign-out
+                    fa-3x"></i><br>Log out</a></li>-->
+                <li><a href="" ng-controller="logoutController" ng-click="logoutUser()"><i class="fa fa-sign-out fa-3x"></i><br>Log out</a></li>
+            </ul>
+        </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <body ng-controller="mainController">
+      <div id="main">
+          <div ng-view></div>
+      </div>
+
+</body>
+</html>

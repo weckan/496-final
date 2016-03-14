@@ -1,0 +1,66 @@
+<style>
+.errorText {color: #D8000C;}
+.panel {display: inline-block; width: 25%; vertical-align: top; padding: 10px}
+</style>
+<div class="container" ng-controller="userController">
+  <div ng-hide="!showAddPanel">
+    <div class = "panel">
+        <label>Email:</label><input class="form-control" type="text"
+        ng-model="newUser.email"><span class="errorText">{{invalidAdd.name}}</span>
+        <label>Password:</label><input class="form-control" type="password"
+        ng-model="newUser.passwordHash"><span
+            class="errorText">{{invalidAdd.paswordHash}}</span>
+        <label>SuperAdmin:</label>
+        <input class="radio-inline" type="radio"ng-model="newUser.isSuperAdmin" ng-value="true">
+            <label>Yes</label>
+        <input class="radio-inline" type="radio"ng-model="selectedUser.isSuperAdmin" ng-value="false">
+            <label>No</label>
+  </div>
+<div>
+    <button  class="btn btn-success" ng-click="addUser(newUser)">Save</button>
+    <button  class="btn btn-warning" ng-click="showAddPanel = false">Cancel</button>
+</div>
+</div>
+<div ng-hide="showAddPanel">
+    <button  class="btn btn-info" ng-click="showAddPanel = true">Add A User</button>
+</div>
+<br>
+<label>Filter By Email<input ng-model="search.email"></label>
+<label>Filter By Admin<input ng-model="search.isSuperAdmin"></label>
+  <table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+        <!--td colspan="2">Email</td> -->
+      <td>Email</td>
+      <td>SuperAdmin Status</td>
+      <td>Actions</td>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users | filter:search" ng-include="getTemplate(user)">
+        <script type="text/ng-template" id="display">
+        <td>{{user.email}}</td>
+        <td>{{user.isSuperAdmin}}</td>
+        <td>
+          <button  class="btn btn-success" ng-click="editUser(user)">Edit</button>
+          <button  class="btn btn-danger" ng-click="removeUser(user._id)">Delete</button>
+        </td>
+        </script>
+        <script type="text/ng-template" id="edit">
+            <td>
+                <input class="form-control" type="text"
+                ng-model="selectedUser.email"><span class="errorText">{{invalidAdd.name}}</span>
+            </td>
+            <td>
+                <label>SuperAdmin:</label></br>
+                <input class="radio-inline" type="radio"
+                ng-model="selectedUser.isSuperAdmin" ng-value="true">
+                <label>Yes</label>
+                <input class="radio-inline" type="radio"
+                ng-model="selectedUser.isSuperAdmin" ng-value="false">
+                <label>No</label>
+            </td>
+        <td><button type="button" class="btn btn-info"  ng-click="updateUser()">Save</button></td>
+        </script>
+      </tr>
+    </tbody>
+  </table>
+</div>
